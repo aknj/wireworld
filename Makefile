@@ -2,7 +2,7 @@ CC = gcc
 LDIR = /home/user/lib
 CFLAGS = -DDEBUG -g -Wall -pedantic -std=c99 -I$(LDIR)/include
 LFLAGS = -L$(LDIR)/lib -lbmp -lm
-NAME = life.out
+NAME = ww.out
 #NBHOOD_TYPE =
 NBHOOD_TYPE = torus_
 
@@ -10,6 +10,8 @@ $(NAME): main.o plansza.o rules.o boardio.o automaton.o $(NBHOOD_TYPE)neighborho
 	$(CC) -o $@ $^ $(LFLAGS)
 
 main.o: boardio.h automaton.h
+
+boardio.o: plansza.o
 
 plansza.o: plansza.h state.h
 
@@ -26,6 +28,11 @@ cleanbmps:
 	cd output; rm *.bmp
 
 ## testy
+
+diode1: $(NAME)
+	./$< test2/$@ 20 1 output/ww_$@
+
+## stare testy
 
 zabka: $(NAME)
 	./$< test/$@ 20 1 output/$@

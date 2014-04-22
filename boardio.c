@@ -3,6 +3,10 @@
 #include <bmpfile.h>
 
 const int depth = 32;
+rgb_pixel_t empty = {0, 0, 0, 0};
+rgb_pixel_t ehead = {230, 50, 50, 0};
+rgb_pixel_t etail = {30, 30, 255, 0};
+rgb_pixel_t condr = {10, 220, 220, 0};
 
 board_t* read_from_file(FILE* stream) {
     int rn, cn;
@@ -47,8 +51,6 @@ void print_cell_to_bmp(bmpfile_t *bmp, int x, int y, int cell_sz, rgb_pixel_t co
 }
 
 void write_to_bmp(board_t* b, const char *filename) {
-    rgb_pixel_t dead = {255, 255, 255, 0};
-    rgb_pixel_t alive = {0, 0, 255, 0};
 
     bmpfile_t *bmp;
     int i, j;
@@ -65,12 +67,23 @@ void write_to_bmp(board_t* b, const char *filename) {
 
     for(i = 0; i < height; i+=5) {
         for(j = 0; j < width; j+=5) {
-            if(get_cell(b, i/5, j/5) == ALIVE) {
+            state_t c = get_cell(b, i/5, j/5);
+            if(c == EMPTY)
+                print_cell_to_bmp(bmp, j, i, cell_sz, empty);
+            else if(c == EHEAD)
+                print_cell_to_bmp(bmp, j, i, cell_sz, ehead);
+            else if(c == ETAIL)
+                print_cell_to_bmp(bmp, j, i, cell_sz, etail);
+            else if(c == CONDR)
+                print_cell_to_bmp(bmp, j, i, cell_sz, condr);
+
+            
+            /*if(get_cell(b, i/5, j/5) == ALIVE) {
                 print_cell_to_bmp(bmp, j, i, cell_sz, alive);
             }
             else {
                 bmp_set_pixel(bmp, j, i, dead);
-            }
+            }*/
         }
     }
 
