@@ -15,6 +15,20 @@ char *usage =
     "       prefix - napis, od ktorego beda zaczynaly sie nazwy\n"
     "               plikow png z zapisywanymi generacjami\n";
 
+/*char *createfilename(char* base, int i) {
+    char filename[255];
+    filename[0] = '\0';
+    strcat(filename, base);
+    strcat(filename, "_");          // dopisanie do filename znaku _
+    char buf[20];
+    sprintf(buf, "%03d", i);          // zamiana i na const char*
+    char* c = buf;
+    strcat(filename, c);            // dopisanie do filename numeru generacji
+    strcat(filename, ".bmp");       // dopisanie do filename .bmp
+
+    return filename;
+}*/
+
 int
 main(int argc, char **argv)
 {
@@ -22,16 +36,10 @@ main(int argc, char **argv)
     int n = argc > 2 ? atoi(argv[2]) : 20;
     int step = argc > 3 ? atoi(argv[3]) : 1;
     int i;
-    char *base = argc > 4 ? argv[4] : "output/life";
-    char filename[255];
-    char *filenametemp = base;
-    strcpy(filename, filenametemp);
-    //int basenamel = strlen(filename);
-#ifdef DEBUG
-    //printf("basenamel = %d\n", basenamel);
-#endif
+    char *basenametemp = argc > 4 ? argv[4] : "output/life";
     char basename[255];
-    strcpy(basename, filename);
+    strcpy(basename, basenametemp);
+    char filename[255];
 
     if(in == NULL) {
         if(argc > 1)
@@ -60,6 +68,7 @@ main(int argc, char **argv)
             strcat(filename, c);            // dopisanie do filename numeru generacji
             strcat(filename, ".bmp");       // dopisanie do filename .bmp
 
+            //write_to_bmp(b, createfilename(*basename, i));
             write_to_bmp(b, filename);
         }
         prepare_next_states(b, backb); // to, co w momencie rozpoczecia tej funkcji jest na backb nas nie obchodzi

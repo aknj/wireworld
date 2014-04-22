@@ -52,3 +52,9 @@ nbhood_test.out: test/nbhood_test.o plansza.o rules.o neighborhood.o boardio.o
 
 testnbh: nbhood_test.out
 	./nbhood_test.out test/dane2
+
+## inne
+
+bmplibfix:
+	LD_LIBRARY_PATH=$(LDIR)/lib \
+export LD_LIBRARY_PATH
